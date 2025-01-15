@@ -1,34 +1,89 @@
-# Méthode des variables intermédiaires 
-def calcule(num1, operator, num2):
+historique = []
 
-    result = "Opérateur invalide"  # Valeur par défaut si l'opérateur est incorrect
+print ("🧮 Bienvenue sur My Calculator ! :")
 
-    if operator == '+':
-        result = num1 + num2
-    elif operator == '-':
-        result = num1 - num2
-    elif operator == '*':
-        result = num1 * num2
-    elif operator == '/':
-        result = num1 / num2 if num2 != 0 else "Division par zéro impossible"
-    elif operator == '%':
-        result = num1 % num2
+def afficher_menu():
+    print ("\n📖 Menu principal📖:")
+    print ("1. 🔢 Effectuer un calcul")
+    print ("2. 💭 Afficher l'historique")    
+    print ("3. ❌ Effacer l'historique")
+    print ("4. ⛷️  Quitter\n")
 
-    return result
 
-try:
-    m = int(input('Veuillez entrer un nombre entier : '))
-    
+def effectuer_calcul():
     while True:
-        n = input('Veuillez entrer un opérateur (+, -, *, /, %) : ')
-        if n in ['+', '-', '*', '/', '%']:
+        try: 
+            num1= float(input("Entrez un premier nombre (entier ou décimal) de votre choix : "))
             break
+        except ValueError:
+            print("Erreur: Veuillez entrer un nombre (entier ou décimal) valide")
+        
+            
+    while True:    
+        operator = input("Entrez un operateur (+,-,*,/) : ").strip()
+        if operator not in ["+", "-", "*", "/"]:
+            print("Error: opérateur non valide.")
         else:
-            print("Vous n'avez pas rentré un opérateur valide. Réessayez.")
-    
-    o = int(input('Veuillez entrer un autre nombre entier : '))
-    
-    resultat = calcule(m, n, o)
+            break
+
+        
+    while True:
+        try:
+            num2 = float(input("Entrez un deuxième nombre (entier ou décimal) de votre choix : "))
+            if operator == '/' and num2 == 0:
+                print("Erreur: Division par zéro impossible.")
+                continue
+            break
+        except ValueError:
+            print("Erreur: Veuillez entrer un nombre valide.")
+
+
+    # Effectuer le calcul
+    if operator == '+':
+        resultat = num1 + num2
+    elif operator == '-':
+        resultat = num1 - num2
+    elif operator == '*':
+        resultat = num1 * num2
+    elif operator == '/':
+        resultat = num1 / num2
+
+    #Afficher le résultat
     print(f"Résultat : {resultat}")
-except ValueError:
-    print("Attention ! Ce n'est pas un nombre entier.")
+
+    #Ajouter à l'historique
+    historique.append(f"{num1} {operator} {num2} = {resultat}")
+    
+
+def print_historique():
+    if not historique: 
+        print(" Nous ne pouvons pas afficher l'historique car il est vide.")
+    else:
+        print("\n===Historique des calculs : ===")
+        for operation in historique:
+            print(operation)
+
+def effacer_historique():  #efface l'historique des calculs
+    if not historique:
+        print("Aucun historique à effacer")
+    else:
+        historique.clear() 
+        # pour verifier: print(historique)
+        print("Historique effacé")
+
+#Boucle principal mainloop
+while True: 
+    afficher_menu()
+    choix = input("Choisissez une option (1-4) : ").strip()
+
+    if choix == '1':
+        effectuer_calcul()
+    elif choix == '2':
+        print_historique()
+    elif choix == '3':
+        effacer_historique()
+    elif choix == '4':
+        print("Merci d'avoir utilisé la calculatrice. À bientôt ! 👋")
+        break
+    else:
+        print("Option non valide. Veuillez entrer un numéro entre 1 et 4.")
