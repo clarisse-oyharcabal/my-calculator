@@ -35,7 +35,7 @@ def input_validator():
                 continue
             break
         except ValueError:
-            print("Erreur: Veuillez entrer un nombre valide.")
+            print("Error: Veuillez entrer un nombre valide.")
     
     return num1, operator, num2
     
