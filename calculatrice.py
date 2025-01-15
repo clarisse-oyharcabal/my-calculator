@@ -29,7 +29,7 @@ def input_validator():
         
     while True:
         try:
-            num2 = float(input("Entrez un deuxième nombre (entier ou décimal) de votre choix : "))
+            num2 = float(input("Entrez un deuxième nombre (entier ou decimal) de votre choix : "))
             if operator == '/' and num2 == 0:
                 print("Erreur: Division par zéro impossible.")
                 continue
