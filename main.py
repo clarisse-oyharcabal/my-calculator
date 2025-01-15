@@ -1,12 +1,17 @@
 from functions.intro import intro
+from functions.input_operation import input_operation
+from functions.parse import parse
 from functions.exponentiation import exponentiation
 from functions.multiplication import multiplication
 from functions.division import division
 from functions.addition import addition
 from functions.subtraction import subtraction
-from functions.parse import parse
+
 
 def main():
     intro()
+    operation = input_operation()
+    parse(operation)
+    
 
 main()
