@@ -5,5 +5,3 @@ def division(number_1, number_2):
         result = number_1 / number_2
         operation = [number_1, '/', number_2, result]
     return operation
-
-print(division(0,10))
