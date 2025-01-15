@@ -10,7 +10,7 @@ def afficher_menu():
     print ("4. ⛷️  Quitter\n")
 
 
-def effectuer_calcul():
+def input_validator():
     while True:
         try: 
             num1= float(input("Entrez un premier nombre (entier ou décimal) de votre choix : "))
@@ -36,8 +36,12 @@ def effectuer_calcul():
             break
         except ValueError:
             print("Erreur: Veuillez entrer un nombre valide.")
+    
+    return num1, operator, num2
+    
 
-
+def effectuer_calcul():
+    num1, operator, num2 = input_validator() #ou directement effectuer_calcul(num1,operator,num2)?
     # Effectuer le calcul
     if operator == '+':
         resultat = num1 + num2
@@ -53,7 +57,20 @@ def effectuer_calcul():
 
     #Ajouter à l'historique
     historique.append(f"{num1} {operator} {num2} = {resultat}")
-    
+
+def recommencer_calcul():
+    while True:
+        effectuer_calcul()
+
+    #Demande à l'utilisateur s'il veut recommencer un calcul.
+        while True:
+            recommencer = input("Voulez-vous effectuer un autre calcul ? (o pour refaore calcul, n pour retourner au menu) : ").strip().lower()
+            if recommencer == 'o':
+                break  # Recommence un autre calcul
+            elif recommencer == 'n':
+                return  # Retourne au menu principal
+            else:
+                print("Entrée invalide. Veuillez saisir 'o' pour refaire un calcul ou 'n' pour retourner au menu.")
 
 def print_historique():
     if not historique: 
@@ -72,18 +89,22 @@ def effacer_historique():  #efface l'historique des calculs
         print("Historique effacé")
 
 #Boucle principal mainloop
-while True: 
-    afficher_menu()
-    choix = input("Choisissez une option (1-4) : ").strip()
+def main():
+    while True: 
+        afficher_menu()
+        choix = input("Choisissez une option (1-4) : ").strip()
 
-    if choix == '1':
-        effectuer_calcul()
-    elif choix == '2':
-        print_historique()
-    elif choix == '3':
-        effacer_historique()
-    elif choix == '4':
-        print("Merci d'avoir utilisé la calculatrice. À bientôt ! 👋")
-        break
-    else:
-        print("Option non valide. Veuillez entrer un numéro entre 1 et 4.")
+        if choix == '1':
+            recommencer_calcul() 
+        elif choix == '2':
+            print_historique()
+        elif choix == '3':
+            effacer_historique()
+        elif choix == '4':
+            print("Merci d'avoir utilisé la calculatrice. À bientôt ! 👋")
+            break
+        else:
+            print("Option non valide. Veuillez entrer un numéro entre 1 et 4.")
+
+if __name__ == "__main__":
+    main()
