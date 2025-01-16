@@ -1,7 +1,5 @@
 historique = []
 
-print ("🧮 Bienvenue sur My Calculator ! :")
-
 def afficher_menu():
     print ("\n📖 Menu principal📖:")
     print ("1. 🔢 Effectuer un calcul")
@@ -119,6 +117,8 @@ def effacer_historique():  #efface l'historique des calculs
 
 #Boucle principal mainloop
 def main():
+    print ("🧮 Bienvenue sur My Calculator ! :")
+    
     while True: 
         afficher_menu()
         choix = input("Choisissez une option (1-4) : ").strip()
