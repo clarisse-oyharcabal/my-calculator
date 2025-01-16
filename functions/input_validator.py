@@ -62,6 +62,6 @@ print(input_validator(number_1, operator, number_2))"""
 """number_1, operator, number_2, valid_number_1, valid_operator, valid_sqrt_operator, valid_division_operation, valid_number_2 = input_validator(number_1, operator, number_2)
 print(f"valid_number_1: {valid_number_1}")
 print(f"valid_operator: {valid_operator}")
-print(f"valid_sqrt_operator: {valid_sqrt_operator}")
+print(f"valid_sqrt_operation: {valid_sqrt_operator}")
 print(f"valid_division_operation: {valid_division_operation}")
 print(f"valid_number_2: {valid_number_2}")"""
