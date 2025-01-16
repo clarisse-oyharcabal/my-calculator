@@ -29,7 +29,6 @@ def input_validator():
     if operator == "sqrt":
         if num1 < 0:
             return None, operator, None # Retourner None en cas d'erreur o sea en cas d'operation illegale
-        print(f"Calcul de la racine carrée de {num1}.")
     elif operator == "e":   
             while True:   
                 try:
@@ -118,7 +117,7 @@ def effacer_historique():  #efface l'historique des calculs
 #Boucle principal mainloop
 def main():
     print ("🧮 Bienvenue sur My Calculator ! :")
-    
+
     while True: 
         afficher_menu()
         choix = input("Choisissez une option (1-4) : ").strip()
