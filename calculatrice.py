@@ -20,39 +20,40 @@ def input_validator():
         
             
     while True:    
-        operator = input("Entrez un operateur (+,-,*,/, sqrt (racine carrée)) : ").strip().lower()
-        if operator not in ["+", "-", "*", "/","sqrt"]:
+        operator = input("Entrez un operateur (+,-,*,/, sqrt (racine carrée), e (puissance)) : ").strip().lower()
+        if operator not in ["+", "-", "*", "/","sqrt", "e"]:
             print("Error: opérateur non valide.")
         else:
             break
 
+    num2 = None
+
     if operator == "sqrt":
         if num1 < 0:
             return None, operator, None # Retourner None en cas d'erreur o sea en cas d'operation illegale
-        return num1, operator, None # Retourner le nombre si pas d'erreur
-
-    
+        print(f"Calcul de la racine carrée de {num1}.")
+    elif operator == "e":   
+            while True:   
+                try:
+                    num2 = float(input(f"Quelle puissance voulez-vous appliquer à {num1} ? : "))
+                    break 
+                except ValueError:
+                    print("Error: Veuillez entrer un nombre valide.")
     else:
         while True:
             try:
-                num2 = float(input("Entrez un deuxième nombre (entier ou decimal) de votre choix : "))
-                if operator == '/' and num2 == 0:
-                    print("Erreur: Division par zéro impossible.")
-                    continue
-                break
+                num2 = float(input(f"Veuillez entrer un deuxième nombre (entier ou décimal) valide : "))
+                if operator == "/" and num2 ==0:
+                    print("Erreur: Division par zéro impossible.")   
+                else:
+                    break
             except ValueError:
-                print("Error: Veuillez entrer un nombre valide.")
-        
-        return num1, operator, num2
-        
+                print("Erreur: Veuillez entrer un nombre valide")
 
-def effectuer_calcul():
-    num1, operator, num2 = input_validator() #ou directement effectuer_calcul(num1,operator,num2)?
+    return num1, operator, num2
+            
 
-    if num1 is None:
-        print("Erreur: il n'est pas possible de calculer la racine carrée d'un nombre négatif")
-        return
-    
+def effectuer_calcul(num1, operator, num2):
     # Effectuer le calcul
     if operator == '+':
         resultat = num1 + num2
@@ -64,16 +65,31 @@ def effectuer_calcul():
         resultat = num1 / num2
     elif operator == "sqrt":
         resultat = num1 ** 0.5  #Calcul de la racine carrée en utilisant l'exponentiel
+    elif operator == "e" : 
+        resultat = num1 ** num2 
+    return resultat
 
-    #Afficher le résultat
-    print(f"Résultat : {resultat}")
+def print_resultat():
+    num1, operator, num2 = input_validator()   
+    if num1 is None:
+        print("Erreur: il n'est pas possible de calculer la racine carrée d'un nombre négatif")
+        return
+    
+    resultat = effectuer_calcul(num1, operator, num2)
+
+    if operator == "sqrt":
+        print(f"La racine carrée de {num1} est : {resultat}")
+    elif operator == "e":
+        print(f"{num1} puissance {num2} est égale à : {resultat} ")
+    else:
+        print(f"{num1} {operator} {num2} = {resultat}")
 
     #Ajouter à l'historique
     historique.append(f"{num1} {operator} {num2 if num2 is not None else ''} = {resultat}")
 
 def recommencer_calcul():
     while True:
-        effectuer_calcul()
+        print_resultat()
 
     #Demande à l'utilisateur s'il veut recommencer un calcul.
         while True:
@@ -90,8 +106,8 @@ def print_historique():
         print(" Nous ne pouvons pas afficher l'historique car il est vide.")
     else:
         print("\n===Historique des calculs : ===")
-        for operation in historique:
-            print(operation)
+        for calculs in historique:
+            print(calculs)
 
 def effacer_historique():  #efface l'historique des calculs
     if not historique:
