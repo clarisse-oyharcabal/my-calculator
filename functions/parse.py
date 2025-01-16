@@ -6,6 +6,10 @@ def parse(operation):
     number_2 = ""
     operator_found = False
     
+    if operation[0] == "-":
+        number_1 = operation[0]
+        operation = operation[1:]
+
     for char in operation:
         if char in "+-*/er" and not operator_found:
             operator = char
@@ -15,13 +19,10 @@ def parse(operation):
         else:
             number_2 += char
     
-    #number_1 = float(number_1)
-    #number_2 = float(number_2)
-    
     return number_1, operator, number_2
 
 
-"""operation = "365e 5"
+"""operation = "-365e5"
 number_1, operator, number_2 = parse(operation)
 
 print("number_1:", number_1)
