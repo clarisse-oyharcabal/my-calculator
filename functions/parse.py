@@ -7,7 +7,7 @@ def parse(operation):
     operator_found = False
     
     for char in operation:
-        if char in "+-*/e" and not operator_found:
+        if char in "+-*/er" and not operator_found:
             operator = char
             operator_found = True
         elif not operator_found:
