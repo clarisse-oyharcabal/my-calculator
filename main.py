@@ -11,7 +11,8 @@ from functions.subtraction import subtraction
 def main():
     intro()
     operation = input_operation()
-    parse(operation)
-    
+    number_1, operator, number_2 = parse(operation)
+    print(number_1, operator, number_2)
+    #input_validator(number_1, operator, number_2)
 
 main()
