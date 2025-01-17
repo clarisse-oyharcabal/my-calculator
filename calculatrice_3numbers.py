@@ -7,48 +7,56 @@ def afficher_menu():
     print ("3. ❌ Effacer l'historique")
     print ("4. ⛷️  Quitter\n")
 
+def afficher_erreur(message): #Affiche un message d'erreur 
+    print(f'Erreur : {message}')
 
 def input_validator():
     while True:
-        try: 
-            num1= float(input("Entrez un premier nombre (entier ou décimal) de votre choix : "))
+        try:
+            num1 = float(input("Entrez le premier nombre : "))
             break
         except ValueError:
-            print("Erreur: Veuillez entrer un nombre (entier ou décimal) valide")
-        
-            
-    while True:    
-        operator = input("Entrez un operateur (+,-,*,/, sqrt (racine carrée), e (puissance)) : ").strip().lower()
-        if operator not in ["+", "-", "*", "/","sqrt", "e"]:
-            print("Error: opérateur non valide.")
+            afficher_erreur("Veuillez entrer un nombre valide.")
+
+    while True:
+        operator1 = input("Entrez le premier opérateur (+, -, *, /, sqrt, e) : ").strip().lower()
+        if operator1 not in ["+", "-", "*", "/", "sqrt", "e"]:
+            afficher_erreur("Opérateur non valide.")
+        elif operator1 =="sqrt" and num1 < 0 : 
+            afficher_erreur("Impossible de calculer la racine carrée d'un nombre négatif.")
         else:
             break
 
-    num2 = None
+    while True:
+        try:
+            num2 = float(input("Entrez le deuxième nombre : "))
+            if operator1 == "/" and num2 == 0 :
+                afficher_erreur("Division par zéro impossible.")      
+            else:
+                break
+        except ValueError:
+            afficher_erreur("Veuillez entrer un nombre valide.")
 
-    if operator == "sqrt":
-        if num1 < 0:
-            return None, operator, None # Retourner None en cas d'erreur o sea en cas d'operation illegale
-    elif operator == "e":   
-            while True:   
-                try:
-                    num2 = float(input(f"Quelle puissance voulez-vous appliquer à {num1} ? : "))
-                    break 
-                except ValueError:
-                    print("Error: Veuillez entrer un nombre valide.")
-    else:
-        while True:
-            try:
-                num2 = float(input(f"Veuillez entrer un deuxième nombre (entier ou décimal) valide : "))
-                if operator == "/" and num2 ==0:
-                    print("Erreur: Division par zéro impossible.")   
-                else:
-                    break
-            except ValueError:
-                print("Erreur: Veuillez entrer un nombre valide")
 
-    return num1, operator, num2
-            
+    while True:
+        operator2 = input("Entrez le deuxième opérateur (+, -, *, /, sqrt, e) : ").strip().lower()
+        if operator2 not in ["+", "-", "*", "/", "sqrt", "e"]:
+            afficher_erreur("Opérateur non valide.")
+        else:
+            break
+
+    while True:
+        try:
+            num3 = float(input("Entrez le troisième nombre : "))
+            if operator2 == "/" and num3 == 0:
+                afficher_erreur("Division par zéro impossible.")
+            else:
+                break
+        except ValueError:
+            afficher_erreur("Veuillez entrer un nombre valide.")
+
+    return num1, operator1, num2, operator2, num3
+
 
 def effectuer_calcul(num1, operator, num2):
     # Effectuer le calcul
@@ -66,23 +74,32 @@ def effectuer_calcul(num1, operator, num2):
         resultat = num1 ** num2 
     return resultat
 
+def effectuer_calcul_prioritaire(num1, operator1, num2, operator2, num3):
+    # dico des opérateurs par priorité
+    priorites = {"*": 2, "/": 2, "+": 1, "-": 1, "e": 2, "sqrt": 2}
+
+    # Calcul intermédiaire pour respecter la priorité
+    if priorites[operator1] >= priorites[operator2]:        
+        # Calculer num1 operator1 num2 en premier
+        intermediaire = effectuer_calcul(num1, operator1, num2)
+        resultat = effectuer_calcul(intermediaire, operator2, num3)
+    else:
+        # Calculer num2 operator2 num3 en premier
+        intermediaire = effectuer_calcul(num2, operator2, num3)
+        resultat = effectuer_calcul(num1, operator1, intermediaire)
+
+    return resultat
+
 def print_resultat():
-    num1, operator, num2 = input_validator()   
+    num1, operator1, num2, operator2, num3 = input_validator()  
+
     if num1 is None:
         print("Erreur: il n'est pas possible de calculer la racine carrée d'un nombre négatif")
         return
     
-    resultat = effectuer_calcul(num1, operator, num2)
-
-    if operator == "sqrt":
-        print(f"La racine carrée de {num1} est : {resultat}")
-    elif operator == "e":
-        print(f"{num1} puissance {num2} est égale à : {resultat} ")
-    else:
-        print(f"{num1} {operator} {num2} = {resultat}")
-
-    #Ajouter à l'historique
-    historique.append(f"{num1} {operator} {num2 if num2 is not None else ''} = {resultat}")
+    resultat = effectuer_calcul_prioritaire(num1, operator1, num2, operator2, num3)
+    print(f"Le résultat de {num1} {operator1} {num2} {operator2} {num3} est : {resultat}")
+    historique.append(f"{num1} {operator1} {num2} {operator2} {num3} = {resultat}")
 
 def recommencer_calcul():
     while True:
@@ -103,7 +120,7 @@ def print_historique():
         print(" Nous ne pouvons pas afficher l'historique car il est vide.")
     else:
         print("\n===Historique des calculs : ===")
-        for calculs in historique:
+        for calculs in historique: 
             print(calculs)
 
 def effacer_historique():  #efface l'historique des calculs
@@ -133,6 +150,7 @@ def main():
             break
         else:
             print("Option non valide. Veuillez entrer un numéro entre 1 et 4.")
+
 
 if __name__ == "__main__":
     main()
