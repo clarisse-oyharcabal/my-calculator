@@ -19,7 +19,7 @@ def main():
         number_1, operator, number_2 = parse(operation)
         validated = input_validator(number_1, operator, number_2)
 
-
+        print(validated)
         number_1 = validated[0]
         operator = validated[1]
         number_2 = validated[2]
@@ -28,8 +28,7 @@ def main():
         valid_sqrt_operation = validated[5]
         valid_division_operation = validated[6]
         valid_number_2 = validated[7]
-    
-    
+
         while not valid_number_1:
             operation = input_operation()
             number_1, operator, number_2 = parse(operation)
@@ -53,7 +52,6 @@ def main():
         else:
             operation = number_1, operator, number_2
         return operation
-    #
-        print(calculate(operation))
     
+
 main()
