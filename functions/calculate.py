@@ -1,42 +1,18 @@
-from multiplication import multiplication
-from division import division
-from exponentiation import exponentiation
-from sqrt import sqrt
-
-
-from subtraction import subtraction
-from addition import addition
+from functions import addition, division, multiplication, subtraction, sqrt, exponentiation
 
 def calculate(operation):
-    
-    print(operation)
-    print(operator)
-    
-    match operator:
-        case "r":
-            operation = sqrt(number_1, number_2)
-            return operation
-        case "e":
-            operation = exponentiation(number_1, number_2)
-            return operation
-        case "/":
-            operation = division(number_1, number_2)
-            return operation
-        case "*":
-            operation = multiplication(number_1, number_2)
-            return operation
-        case "-":
-            operation = subtraction(number_1, number_2)
-            return operation
-        case "+":
-            operation = addition(number_1, number_2)
-            return operation
-        
-    return
-
-
-"""number_1 = 10.0
-operator = "r"
-number_2 = None
-operation = (number_1, operator, number_2)
-print(calculate(operation))"""
+    number_1, operator, number_2 = operation
+    if operator == "+":
+        return addition(number_1, number_2)
+    elif operator == "-":
+        return subtraction(number_1, number_2)
+    elif operator == "*":
+        return multiplication(number_1, number_2)
+    elif operator == "/":
+        return division(number_1, number_2)
+    elif operator == "e":
+        return exponentiation(number_1, number_2)
+    elif operator == "r":
+        return sqrt(number_1, number_2)
+    else:
+        return "Invalid operator. (detected in calculate.py)"
