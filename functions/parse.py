@@ -1,5 +1,5 @@
 def parse(operation):
-    operation = operation.strip()
+    operation = operation.strip().lower()
     
     number_1 = ""
     operator = ""
@@ -20,11 +20,3 @@ def parse(operation):
             number_2 += char
     
     return number_1, operator, number_2
-
-
-"""operation = "-365e5"
-number_1, operator, number_2 = parse(operation)
-
-print("number_1:", number_1)
-print("operator:", operator)
-print("number_2:", number_2)"""
