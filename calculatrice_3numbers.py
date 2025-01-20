@@ -1,17 +1,13 @@
 historique = []
 
 def afficher_menu():
-    print("\n📖 Menu principal📖:")
+    print("\n📖 Menu principal📖 :")
     print("1. 🔢 Effectuer un calcul")
-    print("2. 💭 Afficher l'historique")
-    print("3. ❌ Effacer l'historique")
-    print("4. ⛷️  Quitter\n")
+    print("2. 🌱 Calculer une racine carrée d'un nombre")
+    print("3. 💭 Afficher l'historique")
+    print("4. ❌ Effacer l'historique")
+    print("5. ⛷️ Quitter\n")
 
-def afficher_erreur(message):
-    print(f"Erreur : {message}")
-
-def afficher_resultat_intermediaire(operation, resultat):
-    print(f"Résultat intermédiaire : {operation} = {resultat}")
 
 def input_validator():
     # Saisie du premier nombre
@@ -20,95 +16,29 @@ def input_validator():
             num1 = float(input("Entrez le premier nombre : "))
             break
         except ValueError:
-            afficher_erreur("Veuillez entrer un nombre valide.")
+            print("Veuillez entrer un nombre valide.")
 
     # Saisie du premier opérateur
     while True:
-        operator1 = input("Entrez le premier opérateur (+, -, *, /, r, ^) : ").strip().lower()
-        if operator1 not in ["+", "-", "*", "/", "r", "^"]:
-            afficher_erreur("Opérateur non valide.")
-        elif operator1 == "r" and num1 < 0:
-            afficher_erreur("Impossible de calculer la racine carrée d'un nombre négatif.")
+        operator1 = input("Entrez le premier opérateur (+, -, *, /, ^) : ").strip().lower()
+        if operator1 not in ["+", "-", "*", "/", "^"]:
+            print("Opérateur non valide.")
+            continue
         else:
             break
-
-    # Cas où l'opérateur 1 est "r"
-    if operator1 == "r":
-        num_additional = num1 ** 0.5
-        afficher_resultat_intermediaire(f"√{num1}", num_additional)
-        while True:
-            operator_additional = input("Entrez un opérateur supplémentaire après 'r' (+, -, *, /, ^) : ").strip().lower()
-            if operator_additional in ["+", "-", "*", "/", "^"]:
-                break
-            else:
-                afficher_erreur("Opérateur non valide.")
-    else:
-        operator_additional = None
 
     # Saisie du deuxième nombre
     while True:
         try:
             num2 = float(input("Entrez le deuxième nombre : "))
-            if (operator1 == "/" or (operator_additional == "/" if operator_additional else False)) and num2 == 0:
-                afficher_erreur("Division par zéro impossible.")
-            else:
-                break
-        except ValueError:
-            afficher_erreur("Veuillez entrer un nombre valide.")
-
-    # Affichage des résultats intermédiaires pour "^"
-    if operator1 == "^":
-        result_exp = num1 ** num2
-        afficher_resultat_intermediaire(f"{num1} ^ {num2}", result_exp)
-
-    # Saisie du deuxième opérateur
-    while True:
-        operator2 = input("Entrez le deuxième opérateur (+, -, *, /, r, ^) : ").strip().lower()
-        if operator2 not in ["+", "-", "*", "/", "r", "^"]:
-            afficher_erreur("Opérateur non valide.")
-        elif operator2 == "r" and operator1 == "r":
-            afficher_erreur("Deux opérateurs 'r' consécutifs ne sont pas autorisés.")
-        elif operator2 == "^" and operator1 == "^":
-            afficher_erreur("Deux opérateurs '^' consécutifs ne sont pas autorisés.")
-        else:
+            if operator1 == "/" and num2 == 0:
+                print("Division par zéro impossible.")
+                continue
             break
-
-    
-    # Affichage des résultats intermédiaires pour "^"
-    if operator2 == "^":
-        result_exp = num2 ** num3
-        afficher_resultat_intermediaire(f"{num2} ^ {num3}", result_exp)
-
-    # Cas où l'opérateur 2 est "r"
-    if operator2 == "r":
-        if operator1 == "^":  # Cas où operator1 est "^"
-            result_exp = num1 ** num2
-            num_additional = result_exp ** 0.5
-            afficher_resultat_intermediaire(f"√{result_exp}", num_additional)
-        else:
-            num_additional = num2 ** 0.5
-            afficher_resultat_intermediaire(f"√{num2}", num_additional)
-        while True:
-            operator_additional = input("Entrez un opérateur supplémentaire après 'r' (+, -, *, /, ^) : ").strip().lower()
-            if operator_additional in ["+", "-", "*", "/", "^"]:
-                break
-            else:
-                afficher_erreur("Opérateur non valide.")
-    else:
-        operator_additional = None
-
-    # Saisie du troisième nombre
-    while True:
-        try:
-            num3 = float(input("Entrez le troisième nombre : "))
-            if operator2 == "/" and num3 == 0:
-                afficher_erreur("Division par zéro impossible.")
-            else:
-                break
         except ValueError:
-            afficher_erreur("Veuillez entrer un nombre valide.")
-
-    return num1, operator1, operator_additional, num2, operator2, num3
+            print("Veuillez entrer un nombre valide.")
+    
+    return num1, operator1, num2
 
 def effectuer_calcul(num1, operator, num2):
     if operator == '+':
@@ -121,69 +51,57 @@ def effectuer_calcul(num1, operator, num2):
         return num1 / num2
     elif operator == "^":
         return num1 ** num2
-    elif operator == "r":
-        return num1 ** 0.5
 
-def effectuer_calcul_prioritaire(num1, operator1, operator_additional, num2, operator2, num3):
+def effectuer_calcul_prioritaire(num1, operator1, num2, operator2, num3):
     # Priorités des opérateurs
-    priorites = {"r": 3, "^": 3, "*": 2, "/": 2, "+": 1, "-": 1}
-    
-    # Cas où operator1 est "r"
-    if operator1 == "r":
-        num_additional = num1 ** 0.5
-        afficher_resultat_intermediaire(f"√{num1}", num_additional)
-        
-        # Si operator_additional est présent, appliquer les priorités correctement
-        if operator_additional:
-            # Priorité de operator_additional par rapport à operator2
-            if priorites[operator_additional] >= priorites[operator2]:
-                intermediaire = effectuer_calcul(num_additional, operator_additional, num2)
-                afficher_resultat_intermediaire(f"{num_additional} {operator_additional} {num2}", intermediaire)
-                resultat = effectuer_calcul(intermediaire, operator2, num3)
-            else:
-                intermediaire = effectuer_calcul(num2, operator2, num3)
-                afficher_resultat_intermediaire(f"{num2} {operator2} {num3}", intermediaire)
-                resultat = effectuer_calcul(num_additional, operator_additional, intermediaire)
-        else:
-            resultat = effectuer_calcul(num_additional, operator2, num3)
-        return resultat
+    priorites = {"^": 3, "*": 2, "/": 2, "+": 1, "-": 1}
 
-    # Cas où operator1 est "^"
-    if operator1 == "^":
-        result_exp = num1 ** num2
-        afficher_resultat_intermediaire(f"{num1} ^ {num2}", result_exp)
-        
-        # Si operator2 est "r", appliquer la racine carrée sur result_exp
-        if operator2 == "r":
-            result_sqrt = result_exp ** 0.5
-            afficher_resultat_intermediaire(f"√{result_exp}", result_sqrt)
-            resultat = result_sqrt + num3
-        else:
-            resultat = effectuer_calcul(result_exp, operator2, num3)
-        return resultat
-
-    # Cas général (appliquer d'abord operator1 puis operator2 si nécessaire)
-    if priorites[operator1] > priorites[operator2] or (priorites[operator1] == priorites[operator2] and operator1 in ["r", "^"]):
-        intermediaire = effectuer_calcul(num1, operator1, num2)
-        afficher_resultat_intermediaire(f"{num1} {operator1} {num2}", intermediaire)
-        resultat = effectuer_calcul(intermediaire, operator2, num3)
+    # Si operator1 a une priorité plus élevée, on le calcule en premier
+    if priorites[operator1] > priorites[operator2]:
+        result1 = effectuer_calcul(num1, operator1, num2)
+        result2 = effectuer_calcul(result1, operator2, num3)
+        return result2
     else:
-        intermediaire = effectuer_calcul(num2, operator2, num3)
-        afficher_resultat_intermediaire(f"{num2} {operator2} {num3}", intermediaire)
-        resultat = effectuer_calcul(num1, operator1, intermediaire)
+        result1 = effectuer_calcul(num2, operator2, num3)
+        result2 = effectuer_calcul(num1, operator1, result1)
+        return result2
 
-    return resultat
+def calcul_racine_carre():
+    while True:
+        try:
+            num = float(input("Entrez un nombre pour calculer sa racine carrée : "))
+            if num < 0:
+                print("Impossible de calculer la racine carrée d'un nombre négatif.")
+                continue
+            racine = num ** 0.5
+            print(f"La racine carrée de {num} est : {racine}")
+            historique.append(f"√{num} = {racine}")
+            break
+        except ValueError:
+            print("Veuillez entrer un nombre valide.")
 
 def print_resultat():
-    num1, operator1, operator_additional, num2, operator2, num3 = input_validator()
-    resultat = effectuer_calcul_prioritaire(num1, operator1, operator_additional, num2, operator2, num3)
+    num1, operator1, num2 = input_validator()
+    operator2 = input("Entrez le deuxième opérateur (+, -, *, /, ^) : ").strip().lower()
+
+    while operator2 not in ["+", "-", "*", "/", "^"]:
+        print("Opérateur non valide.")
+        operator2 = input("Entrez le deuxième opérateur (+, -, *, /, ^) : ").strip().lower()
+
+    while True:
+        try:
+            num3 = float(input("Entrez le troisième nombre : "))
+            if (operator2 == "/" or operator1 == "/") and num3 == 0:
+                print("Division par zéro impossible.")
+                continue
+            break
+        except ValueError:
+            print("Veuillez entrer un nombre valide.")
     
-    # Construction de l'équation en fonction de operator_additional
-    if operator_additional:
-        equation = f"{num1} {operator1} {operator_additional} {num2} {operator2} {num3}"
-    else:
-        equation = f"{num1} {operator1} {num2} {operator2} {num3}"
+    resultat = effectuer_calcul_prioritaire(num1, operator1, num2, operator2, num3)
     
+    # Construction de l'équation
+    equation = f"{num1} {operator1} {num2} {operator2} {num3}"
     print(f"Le résultat de {equation} est : {resultat}")
     historique.append(f"{equation} = {resultat}")
 
@@ -198,6 +116,18 @@ def recommencer_calcul():
                 return
             else:
                 print("Entrée invalide. Veuillez saisir 'o' pour refaire un calcul ou 'n' pour retourner au menu.")
+
+def recommencer_racine():
+    while True:
+        calcul_racine_carre()
+        while True:
+            recommencer = input("Voulez-vous calculer une autre racine carrée ? (o pour refaire, n pour retourner au menu) : ").strip().lower()
+            if recommencer == 'o':
+                break
+            elif recommencer == 'n':
+                return
+            else:
+                print("Entrée invalide. Veuillez saisir 'o' pour refaire ou 'n' pour retourner au menu.")
 
 def print_historique():
     if not historique:
@@ -218,18 +148,20 @@ def main():
     print("🧮 Bienvenue sur My Calculator ! :")
     while True:
         afficher_menu()
-        choix = input("Choisissez une option (1-4) : ").strip()
+        choix = input("Choisissez une option (1-5) : ").strip()
         if choix == '1':
             recommencer_calcul()
         elif choix == '2':
-            print_historique()
+            recommencer_racine()
         elif choix == '3':
-            effacer_historique()
+            print_historique()
         elif choix == '4':
+            effacer_historique()
+        elif choix == '5':
             print("Merci d'avoir utilisé la calculatrice. À bientôt ! 👋")
             break
         else:
-            print("Option non valide. Veuillez entrer un numéro entre 1 et 4.")
+            print("Option non valide. Veuillez entrer un numéro entre 1 et 5.")
 
 if __name__ == "__main__":
     main()
