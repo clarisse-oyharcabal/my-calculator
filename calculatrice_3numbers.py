@@ -19,7 +19,7 @@ def input_validator():
 
     # Input the first operator and ensure it's valid
     while True:
-        operator1 = input("Enter the first operator (+, -, *, /, ^): ").strip().lower()
+        operator1 = input("Enter the first operator (+, -, *, /, ^): ").strip()
         if operator1 not in ["+", "-", "*", "/", "^"]:
             print("Invalid operator.")
             continue
@@ -36,8 +36,30 @@ def input_validator():
             break
         except ValueError:
             print("Please enter a valid number.")
+
+
+# Input the first operator and ensure it's valid
+    while True:
+        operator2 = input("Enter the second operator (+, -, *, /, ^): ").strip()
+        if operator2 not in ["+", "-", "*", "/", "^"]:
+            print("Invalid operator.")
+            continue
+        else:
+            break
+
+    # Input the third number and check for division by zero
+    while True:
+        try:
+            num3 = float(input("Enter the second number (integer or decimal): "))
+            if operator2 == "/" and num3 == 0:
+                print("Cannot divide by zero.")
+                continue
+            break
+        except ValueError:
+            print("Please enter a valid number.")
     
-    return num1, operator1, num2
+    
+    return num1, operator1, num2, operator2, num3
 
 def perform_calculation(num1, operator, num2):
     # Perform the calculation based on the operator
@@ -67,30 +89,16 @@ def perform_priority_calculation(num1, operator1, num2, operator2, num3):
         return result2
 
 def print_result():
-    num1, operator1, num2 = input_validator()  # Get valid inputs
-    operator2 = input("Enter the second operator (+, -, *, /, ^): ").strip().lower()  # Input second operator
+    num1, operator1, num2, operator2, num3 = input_validator()  # Get valid inputs
 
-    while operator2 not in ["+", "-", "*", "/", "^"]:
-        print("Invalid operator.")
-        operator2 = input("Enter the second operator (+, -, *, /, ^): ").strip().lower()
-
-    # Input the third number
-    while True:
-        try:
-            num3 = float(input("Enter the third number: "))
-            if (operator2 == "/" or operator1 == "/") and num3 == 0:
-                print("Cannot divide by zero.")
-                continue
-            break
-        except ValueError:
-            print("Please enter a valid number.")
-    
     # Perform calculation with priority
     result = perform_priority_calculation(num1, operator1, num2, operator2, num3)
     
     # Display the result and save it in history
     equation = f"{num1} {operator1} {num2} {operator2} {num3}"
     print(f"The result of {equation} is: {result}")
+
+    # Add the result to the history
     history.append(f"{equation} = {result}")
 
 def restart_calculation():
