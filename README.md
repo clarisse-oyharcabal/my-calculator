@@ -20,4 +20,4 @@ Cette calculatrice en Python est un programme interactif qui permet d’effectue
 	5.	Validation des entrées :
 	Les fonctions vérifient la validité des nombres, évitent les divisions par zéro et gèrent les erreurs d’entrée pour garantir une expérience utilisateur fluide.
 
-# Le programme est conçu pour être robuste, interactif, et facilement utilisable par des utilisateurs non techniques grâce à ses vérifications d’erreurs et ses instructions claires.
+Le programme est conçu pour être robuste, interactif, et facilement utilisable par des utilisateurs non techniques grâce à ses vérifications d’erreurs et ses instructions claires.
