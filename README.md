@@ -1,1 +1,3 @@
 # my-calculator
+
+🚨🚨🚨 le file important dans la branche simple_version_c est calculatrice_3numbers. Mais il y a encore des bugs de priorités à régler ...
