@@ -3,7 +3,7 @@
 Cette calculatrice en Python est un programme interactif qui permet d’effectuer des calculs mathématiques variés avec un système d’historique intégré. Voici une description concise de ses fonctionnalités principales :
 
 	1.	Calculs complexes avec priorité :
-	La calculatrice peut gérer des opérations impliquant deux opérateurs et trois nombres, tout en respectant la priorité des opérateurs (par exemple, la puissance avant la multiplication).
+	La calculatrice peut gérer des opérations impliquant deux opérateurs et trois nombres, tout en respectant la priorité des opérateurs (par exemple, la multplication avant la soustraction).
 
 	2.	Racine carrée :
 	Une fonction dédiée permet de calculer la racine carrée d’un nombre, tout en validant que celui-ci n’est pas négatif.
