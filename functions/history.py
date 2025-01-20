@@ -32,11 +32,6 @@ def clear_history():
     with open(history_file_path, "w") as f:
         json.dump([], f, indent=4)
 
-def view_history():
-    history = load_history()
-    for record in history:
-        print(f"Operation: {record['operation']}, Result: {record['result']}")
-
 def view_history(): 
     history = load_history() 
     if not history: 
