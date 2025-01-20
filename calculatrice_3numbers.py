@@ -1,46 +1,46 @@
-historique = []
+history = []  # Stores the calculation history
 
-def afficher_menu():
-    print("\n📖 Menu principal📖 :")
-    print("1. 🔢 Effectuer un calcul")
-    print("2. 🌱 Calculer une racine carrée d'un nombre")
-    print("3. 💭 Afficher l'historique")
-    print("4. ❌ Effacer l'historique")
-    print("5. ⛷️ Quitter\n")
-
+def display_menu():
+    print("\n📖 Main Menu 📖:")
+    print("1. 🔢 Perform a calculation")
+    print("2. 🌱 Calculate the square root of a number")
+    print("3. 💭 Display history")
+    print("4. ❌ Clear history")
+    print("5. ⛷️ Exit\n")
 
 def input_validator():
-    # Saisie du premier nombre
+    # Input the first number and ensure it's valid
     while True:
         try:
-            num1 = float(input("Entrez le premier nombre : "))
+            num1 = float(input("Enter the first number (integer or decimal): "))
             break
         except ValueError:
-            print("Veuillez entrer un nombre valide.")
+            print("Please enter a valid number (integer or decimal).")
 
-    # Saisie du premier opérateur
+    # Input the first operator and ensure it's valid
     while True:
-        operator1 = input("Entrez le premier opérateur (+, -, *, /, ^) : ").strip().lower()
+        operator1 = input("Enter the first operator (+, -, *, /, ^): ").strip().lower()
         if operator1 not in ["+", "-", "*", "/", "^"]:
-            print("Opérateur non valide.")
+            print("Invalid operator.")
             continue
         else:
             break
 
-    # Saisie du deuxième nombre
+    # Input the second number and check for division by zero
     while True:
         try:
-            num2 = float(input("Entrez le deuxième nombre : "))
+            num2 = float(input("Enter the second number (integer or decimal): "))
             if operator1 == "/" and num2 == 0:
-                print("Division par zéro impossible.")
+                print("Cannot divide by zero.")
                 continue
             break
         except ValueError:
-            print("Veuillez entrer un nombre valide.")
+            print("Please enter a valid number.")
     
     return num1, operator1, num2
 
-def effectuer_calcul(num1, operator, num2):
+def perform_calculation(num1, operator, num2):
+    # Perform the calculation based on the operator
     if operator == '+':
         return num1 + num2
     elif operator == '-':
@@ -52,116 +52,118 @@ def effectuer_calcul(num1, operator, num2):
     elif operator == "^":
         return num1 ** num2
 
-def effectuer_calcul_prioritaire(num1, operator1, num2, operator2, num3):
-    # Priorités des opérateurs
-    priorites = {"^": 3, "*": 2, "/": 2, "+": 1, "-": 1}
+def perform_priority_calculation(num1, operator1, num2, operator2, num3):
+    # Define operator precedence
+    priorities = {"^": 3, "*": 2, "/": 2, "+": 1, "-": 1}
 
-    # Si operator1 a une priorité plus élevée, on le calcule en premier
-    if priorites[operator1] > priorites[operator2]:
-        result1 = effectuer_calcul(num1, operator1, num2)
-        result2 = effectuer_calcul(result1, operator2, num3)
+    # Perform calculation based on operator precedence
+    if priorities[operator1] > priorities[operator2]:
+        result1 = perform_calculation(num1, operator1, num2)
+        result2 = perform_calculation(result1, operator2, num3)
         return result2
     else:
-        result1 = effectuer_calcul(num2, operator2, num3)
-        result2 = effectuer_calcul(num1, operator1, result1)
+        result1 = perform_calculation(num2, operator2, num3)
+        result2 = perform_calculation(num1, operator1, result1)
         return result2
 
-def calcul_racine_carre():
-    while True:
-        try:
-            num = float(input("Entrez un nombre pour calculer sa racine carrée : "))
-            if num < 0:
-                print("Impossible de calculer la racine carrée d'un nombre négatif.")
-                continue
-            racine = num ** 0.5
-            print(f"La racine carrée de {num} est : {racine}")
-            historique.append(f"√{num} = {racine}")
-            break
-        except ValueError:
-            print("Veuillez entrer un nombre valide.")
-
-def print_resultat():
-    num1, operator1, num2 = input_validator()
-    operator2 = input("Entrez le deuxième opérateur (+, -, *, /, ^) : ").strip().lower()
+def print_result():
+    num1, operator1, num2 = input_validator()  # Get valid inputs
+    operator2 = input("Enter the second operator (+, -, *, /, ^): ").strip().lower()  # Input second operator
 
     while operator2 not in ["+", "-", "*", "/", "^"]:
-        print("Opérateur non valide.")
-        operator2 = input("Entrez le deuxième opérateur (+, -, *, /, ^) : ").strip().lower()
+        print("Invalid operator.")
+        operator2 = input("Enter the second operator (+, -, *, /, ^): ").strip().lower()
 
+    # Input the third number
     while True:
         try:
-            num3 = float(input("Entrez le troisième nombre : "))
+            num3 = float(input("Enter the third number: "))
             if (operator2 == "/" or operator1 == "/") and num3 == 0:
-                print("Division par zéro impossible.")
+                print("Cannot divide by zero.")
                 continue
             break
         except ValueError:
-            print("Veuillez entrer un nombre valide.")
+            print("Please enter a valid number.")
     
-    resultat = effectuer_calcul_prioritaire(num1, operator1, num2, operator2, num3)
+    # Perform calculation with priority
+    result = perform_priority_calculation(num1, operator1, num2, operator2, num3)
     
-    # Construction de l'équation
+    # Display the result and save it in history
     equation = f"{num1} {operator1} {num2} {operator2} {num3}"
-    print(f"Le résultat de {equation} est : {resultat}")
-    historique.append(f"{equation} = {resultat}")
+    print(f"The result of {equation} is: {result}")
+    history.append(f"{equation} = {result}")
 
-def recommencer_calcul():
+def restart_calculation():
     while True:
-        print_resultat()
+        print_result()  # Perform and display calculation
         while True:
-            recommencer = input("Voulez-vous effectuer un autre calcul ? (o pour refaire calcul, n pour retourner au menu) : ").strip().lower()
-            if recommencer == 'o':
+            restart = input("Would you like to perform another calculation? (y to repeat, n to return to the menu): ").strip().lower()
+            if restart == 'y':
                 break
-            elif recommencer == 'n':
-                return
+            elif restart == 'n':
+                return  # Return to the main menu
             else:
-                print("Entrée invalide. Veuillez saisir 'o' pour refaire un calcul ou 'n' pour retourner au menu.")
+                print("Invalid input. Please enter 'y' to repeat or 'n' to return to the menu.")
 
-def recommencer_racine():
+def calculate_square_root():
     while True:
-        calcul_racine_carre()
+        try:
+            num = float(input("Enter a number to calculate its square root: "))
+            if num < 0:
+                print("Cannot calculate the square root of a negative number.")
+                continue
+            square_root = num ** 0.5
+            print(f"The square root of {num} is: {square_root}")
+            history.append(f"√{num} = {square_root}")
+            break
+        except ValueError:
+            print("Please enter a valid number.")
+
+def restart_square_root():
+    while True:
+        calculate_square_root()  # Perform square root calculation
         while True:
-            recommencer = input("Voulez-vous calculer une autre racine carrée ? (o pour refaire, n pour retourner au menu) : ").strip().lower()
-            if recommencer == 'o':
+            restart = input("Would you like to calculate another square root? (y to repeat, n to return to the menu): ").strip().lower()
+            if restart == 'y':
                 break
-            elif recommencer == 'n':
-                return
+            elif restart == 'n':
+                return  # Return to the main menu
             else:
-                print("Entrée invalide. Veuillez saisir 'o' pour refaire ou 'n' pour retourner au menu.")
+                print("Invalid input. Please enter 'y' to repeat or 'n' to return to the menu.")
 
-def print_historique():
-    if not historique:
-        print("Nous ne pouvons pas afficher l'historique car il est vide.")
+def print_history():
+    if not history:
+        print("No history to display because it is empty.")
     else:
-        print("\n=== Historique des calculs : ===")
-        for calcul in historique:
-            print(calcul)
+        print("\n=== Calculation History: ===")
+        for calc in history:
+            print(calc)
 
-def effacer_historique():
-    if not historique:
-        print("Aucun historique à effacer.")
+def clear_history():
+    if not history:
+        print("No history to clear.")
     else:
-        historique.clear()
-        print("Historique effacé.")
+        history.clear()
+        print("History cleared.")
 
 def main():
-    print("🧮 Bienvenue sur My Calculator ! :")
+    print("🧮 Welcome to My Calculator! :")
     while True:
-        afficher_menu()
-        choix = input("Choisissez une option (1-5) : ").strip()
-        if choix == '1':
-            recommencer_calcul()
-        elif choix == '2':
-            recommencer_racine()
-        elif choix == '3':
-            print_historique()
-        elif choix == '4':
-            effacer_historique()
-        elif choix == '5':
-            print("Merci d'avoir utilisé la calculatrice. À bientôt ! 👋")
-            break
+        display_menu()  # Display the menu
+        choice = input("Choose an option (1-5): ").strip()
+        if choice == '1':
+            restart_calculation()  # Option to perform a calculation
+        elif choice == '2':
+            restart_square_root()  # Option to calculate a square root
+        elif choice == '3':
+            print_history()  # Option to view history
+        elif choice == '4':
+            clear_history()  # Option to clear history
+        elif choice == '5':
+            print("Thank you for using the calculator. See you soon! 👋")
+            break  # Exit the program
         else:
-            print("Option non valide. Veuillez entrer un numéro entre 1 et 5.")
+            print("Invalid option. Please enter a number between 1 and 5.")
 
 if __name__ == "__main__":
-    main()
+    main()  # Run the program
