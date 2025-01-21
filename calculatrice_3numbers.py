@@ -79,7 +79,7 @@ def perform_priority_calculation(num1, operator1, num2, operator2, num3):
     priorities = {"^": 3, "*": 2, "/": 2, "+": 1, "-": 1}
 
     # Perform calculation based on operator precedence
-    if priorities[operator1] > priorities[operator2]:
+    if priorities[operator1] >= priorities[operator2]:
         result1 = perform_calculation(num1, operator1, num2)
         result2 = perform_calculation(result1, operator2, num3)
         return result2
