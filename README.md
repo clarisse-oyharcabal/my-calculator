@@ -1,23 +1,36 @@
-# my-calculator
+# My Calculator
 
-Cette calculatrice en Python est un programme interactif qui permet d’effectuer des calculs mathématiques variés avec un système d’historique intégré. Voici une description concise de ses fonctionnalités principales :
+This is a simple terminal-based calculator that allows users to perform various calculations, including basic arithmetic operations and square roots. It also features the ability to store a history of calculations, clear the history, and repeat calculations. The program is designed to be intuitive and interactive, offering a user-friendly menu for easy navigation.
 
-	1.	Calculs complexes avec priorité :
-	La calculatrice peut gérer des opérations impliquant deux opérateurs et trois nombres, tout en respectant la priorité des opérateurs (par exemple, la multplication avant la soustraction).
+## Features
+- Perform basic arithmetic calculations: addition, subtraction, multiplication, division, and exponentiation.
+- Calculate the square root of a number.
+- Display the history of previous calculations.
+- Clear the calculation history.
+- User-friendly interface with a simple terminal menu.
+- Input validation to ensure correct data entry.
 
-	2.	Racine carrée :
-	Une fonction dédiée permet de calculer la racine carrée d’un nombre, tout en validant que celui-ci n’est pas négatif.
+## Key Functions
+1. **display_menu()**: Displays the main menu with options to perform calculations, view history, or exit.
+2. **input_validator()**: Validates and collects input for numbers and operators.
+3. **perform_calculation()**: Performs arithmetic calculations based on the user's input.
+4. **perform_priority_calculation()**: Handles operator precedence in multi-operator calculations.
+5. **print_result()**: Displays the result of the calculation and adds it to the history.
+6. **restart_calculation()**: Allows users to repeat a calculation or return to the main menu.
+7. **calculate_square_root()**: Calculates the square root of a number.
+8. **restart_square_root()**: Allows users to repeat square root calculations or return to the main menu.
+9. **print_history()**: Displays the history of all performed calculations.
+10. **clear_history()**: Clears the calculation history.
 
-	3.	Historique des calculs :
-	Les résultats des calculs et des racines carrées sont enregistrés dans un historique que l’utilisateur peut consulter ou effacer à tout moment.
+## Installation
+1. Clone this repository to your local machine:
+   ```bash
+   git clone https://github.com/clarisse-oyharcabal/my-calculator.git
+2. Navigate to the project directory:
+   ```bash
+   cd my-calculator
+3. Run the Python script:
+   ```bash
+   python main.py
 
-	4.	Interface utilisateur conviviale :
-	Le programme propose un menu interactif avec des options claires :
-	•	Effectuer des calculs complexes.
-	•	Calculer des racines carrées.
-	•	Afficher ou effacer l’historique des calculs.
-	•	Quitter le programme.
-	5.	Validation des entrées :
-	Les fonctions vérifient la validité des nombres, évitent les divisions par zéro et gèrent les erreurs d’entrée pour garantir une expérience utilisateur fluide.
-
-Le programme est conçu pour être robuste, interactif, et facilement utilisable par des utilisateurs non techniques grâce à ses vérifications d’erreurs et ses instructions claires.
+## Enjoy using the calculator! 🧮
